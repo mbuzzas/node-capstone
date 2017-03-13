@@ -1,6 +1,5 @@
 // config/database.js
-module.exports = {
-
-    'url' : 'mongodb://user:user123@ds161179.mlab.com:61179/blogging-app' // looks like mongodb://<user>:<pass>@mongo.onmodulus.net:27017/Mikha4ot
-
-};
+exports.DATABASE_URL = process.env.DATABASE_URL ||
+                       global.DATABASE_URL ||
+                      'mongodb://localhost/node-capstone';
+exports.PORT = process.env.PORT || 8080;

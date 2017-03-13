@@ -39,8 +39,41 @@ module.exports = function(app, passport) {
 	});
 };
 
+app.get('/food', (req, res) => {
+	Food 
+		.find()
+		.exec()
+		.then(food => {
+			res.json(food.map(post => post.apiRepr()));
+		})
+		.catch(
+			err => {
+				console.error(err);
+				res.status(500).json({message: 'Internal server error'});
+			});
+});
+
+app.get('/food/:id', (req, res) => {
+	Food
+		.findById(req.params.id)
+		.exec()
+		.then(post => res.json(post.apiRepr()))
+		.catch(err => {
+			console.error(err);
+			res.status(500).json({message: 'Internal server error'});
+		});
+});
+
+
+
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated())
 		return next();
 	res.redirect('/');
 }
+
+
+
+
+
+

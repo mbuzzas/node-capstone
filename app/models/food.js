@@ -1,13 +1,20 @@
 var mongoose = require('mongoose');
 
-var itemSchema = mongoose.Schema({
+var foodSchema = mongoose.Schema({
 	name: {type: String, required: true},
-	date: {type: String, required: true},
 	meal: {type: String, required: true},
-	nutrients: {type: Array, required: false},
-	username: {type: String, required: true},
+	nutrients: {type: Array[String], required: false},
 });
 
-var Item = mongoose.model('Item', itemSchema);
+foodSchema.methods.apiRepr = function() {
+	return {
+		id: this._id,
+		name: this.name,
+		meal: this.meal,
+		nutrients: this.nutrients,
+	};
+}
 
-module.exports = Item;
+var Food = mongoose.model('Food', foodSchema);
+
+module.exports = {Food};
