@@ -13,6 +13,8 @@ nutrientSchema.methods.apiRepr = function() {
 	};
 }
 
-var Nutrient = mongoose.model('Nutrient', nutrientSchema);
+//var Nutrient = mongoose.model('Nutrient', nutrientSchema);
 
-module.exports = {Nutrient};
+//module.exports = {Nutrient};
+
+module.exports = mongoose.model('Nutrient', nutrientSchema)

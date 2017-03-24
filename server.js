@@ -4,7 +4,7 @@ var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
-
+var moment 	 = require('moment');
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
@@ -13,7 +13,10 @@ var session      = require('express-session');
 var configDB = require('./config/database.js');
 
 // configuration ===============================================================
-mongoose.connect(configDB.url); // connect to our database
+mongoose.connect(configDB.DATABASE_URL); // connect to our database
+
+// add mongoose promise setup
+mongoose.Promise = global.Promise;
 
 require('./config/passport')(passport); // pass passport for configuration
 
@@ -35,4 +38,4 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 
 // launch ======================================================================
 app.listen(port);
-console.log('The magic happens on port ' + port);
+console.log('The magic happens at http://localhost:' + port);
