@@ -1,22 +1,21 @@
 var mongoose = require('mongoose');
 
-var foodSchema = mongoose.Schema({
-	name: {type: String, required: true},
-	nutrients: {type: [Object], required: false},
-	servingSize: {type: String, required: true}
+var foodSchema = new mongoose.Schema({
+    name: {type: String},
+    // servingSize: {type: Number},
+    nutrients: {type: []}
 });
 
 foodSchema.methods.apiRepr = function() {
 	return {
-		id: this._id,
 		name: this.name,
-		nutrients: this.nutrients,
-		servingSize: this.servingSize,
+		// servingSize: this.servingSize,
+		nutrients: this.nutrients
 	};
 }
 
 
-module.exports = mongoose.model('Food', foodSchema)
+module.exports = mongoose.model('foods', foodSchema, 'foods')
 
 
 /*

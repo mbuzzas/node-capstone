@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 
 var nutrientSchema = mongoose.Schema({
 	name: {type: String, required: true},
-	benefits: {type: String, required: true}
+	benefits: {type: String, required: true},
+	nutrient_id: {type: String, required: true}
 });
 
 nutrientSchema.methods.apiRepr = function() {
@@ -10,11 +11,8 @@ nutrientSchema.methods.apiRepr = function() {
 		id: this._id,
 		name: this.name,
 		benefits: this.benefits,
+		nutrient_id: this.nutrient_id
 	};
 }
 
-//var Nutrient = mongoose.model('Nutrient', nutrientSchema);
-
-//module.exports = {Nutrient};
-
-module.exports = mongoose.model('Nutrient', nutrientSchema)
+module.exports = mongoose.model('nutrients', nutrientSchema, 'nutrients')

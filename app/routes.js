@@ -2,12 +2,13 @@ var Food = require('./models/food');
 var Nutrient = require('./models/nutrients');
 var Meal = require('./models/meal');
 
-
+var moment = require('moment');
 
 module.exports = function(app, passport) {
 
 	//Home page with login link
 	app.get('/', function(req, res) {
+		console.log("Test");
 		res.render('index.ejs');
 	});
 
@@ -16,7 +17,7 @@ module.exports = function(app, passport) {
 			.find()
 			.exec()
 			.then(food => {
-				res.json(food.map(post => post.apiRepr()));
+				res.json(food.map(post => post));
 			})
 			.catch(
 				err => {
@@ -29,7 +30,7 @@ module.exports = function(app, passport) {
 		Food
 			.findById(req.params.id)
 			.exec()
-			.then(post => res.json(post.apiRepr()))
+			.then(post => res.json(post))
 			.catch(err => {
 				console.error(err);
 				res.status(500).json({message: 'Internal server error'});
@@ -52,7 +53,7 @@ module.exports = function(app, passport) {
 				nutrients: req.body.nutrients,
 				servingSize: req.body.servingSize})
 			.then(
-				post => res.status(201).json(post.apiRepr()))
+				post => res.status(201).json(post))
 			.catch(err => {
 				console.error(err);
 				res.status(500).json({message: 'Internal server error'});
@@ -84,7 +85,7 @@ module.exports = function(app, passport) {
 
 	app.delete('/food/:id', (req, res) => {
 		Food
-			.findByIdAndRemove(req.param.id)
+			.findByIdAndRemove(req.params.id)
 			.exec()
 			.then(post => res.status(204).end())
 			.catch(err => res.status(500).json({message: 'Internal server error'}));
@@ -100,7 +101,7 @@ module.exports = function(app, passport) {
 			.find()
 			.exec()
 			.then(nutrient => {
-				res.json(nutrient.map(post => post.apiRepr()));
+				res.json(nutrient.map(post => post));
 			})
 			.catch(
 				err => {
@@ -113,7 +114,7 @@ module.exports = function(app, passport) {
 		Nutrient
 			.findById(req.params.id)
 			.exec()
-			.then(post => res.json(post.apiRepr()))
+			.then(post => res.json(post))
 			.catch(err => {
 				console.error(err);
 				res.status(500).json({message: 'Internal server error'});
@@ -121,7 +122,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/nutrient', (req, res) => {
-		const requiredFields = ['name', 'benefits'];
+		const requiredFields = ['name', 'benefits', 'nutrient_id'];
 		for (let i=0; i<requiredFields.length; i++) {
 			const field = requiredFields[i];
 			if (!(field in req.body)) {
@@ -133,9 +134,10 @@ module.exports = function(app, passport) {
 		Nutrient
 			.create({
 				name: req.body.name,
-				benefits: req.body.benefits})
+				benefits: req.body.benefits,
+				nutrient_id: req.body.nutrient_id})
 			.then(
-				post => res.status(201).json(post.apiRepr()))
+				post => res.status(201).json(post))
 			.catch(err => {
 				console.error(err);
 				res.status(500).json({message: 'Internal server error'});
@@ -176,59 +178,105 @@ module.exports = function(app, passport) {
 	//Add meal
 
 	app.get('/meal', (req, res) => {
-            // Meal
-            // 	.find()
-            // 	.exec()
-            // 	.then(meal => {
-            // 		res.json(meal.map(post => post.apiRepr()));
-            // 	})
-            // 	.catch(
-            // 		err => {
-            // 			console.error(err);
-            // 			res.status(500).json({message: 'Internal server error'});
-            // 		});
             var meals;
             var foodArray = [];
-            var food;
             var nutrientArray = [];
             var nutrients;
-            Meal.find({
-                        created: { $gte: moment.midnight(), $lte: moment.add(1, 'day').midnight() }.exec()
+            console.log(moment().format("MMM Do YY"));
+            Meal.find({"date": {"$gte": moment.utc().hours(0).minutes(0).seconds(0).format(), "$lte": moment.utc().hours(0).minutes(0).seconds(0).add(1, 'day').format()}}).exec()
                     .then(function(mealData) {
                         meals = mealData;
-                        return meals;
+                        // res.status(201).json(meals);
+                        return meals
                     })
                     .then(function(meals) {
                         meals.forEach(function(meal) {
-                            meal.food.forEach(function(food) {
-                                if (!food.id in foodArray) {
-                                    foodArray.push(food.id);
-                                }
-                            });
+                            // meal.food.forEach(function(food) {
+                            //     if (!food.id in foodArray) {
+                                    foodArray = foodArray.concat(meal.foodId);
+                            //     }
+                            // });
                         });
                         return Food.find({ '_id': { $in: foodArray } }).exec();
                     })
                     .then(function(foods) {
-                        food = foods;
+                        console.log(foods)
                         foods.forEach(function(foodItem) {
-                            foodItem.nutrient.forEach(function(nutrient) {
-                                if (!nutrient.id in nutrientArray) {
-                                    nutrientArray.push(nutrient.id);
-                                }
-                            });
+                            // foodItem.nutrient.forEach(function(nutrient) {
+                            //     if (!nutrient.id in nutrientArray) {
+                            //         nutrientArray.push(nutrient.id);
+                            //     }
+                            // });
+                            nutrientArray = nutrientArray.concat(foodItem.nutrients)
                         });
 
                         return Nutrient.find({ '_id': { $in: nutrientArray } }).exec();
                     })
                     .then(function(nutrientData) {
-                        nutrients = nutrientData;
+                        console.log(nutrientData);
+                        res.status(201).json(nutrientData);
                     })
-            })
+                    .catch(err => res.status(500).json({message: 'Internal server error'}));
+            // })
+            //res.render('addmeal.ejs', { meals: meals, food: food, nutrients: nutrients })
 	});
 
-    app.get('/meal', (req, res) => {
-     	res.render('meal.ejs', { meals: meals, food: food, nutrients: nutrients })
-    });
+	app.post('/meal', (req, res) => {
+		const requiredFields = ['foodId', 'meals'];
+		for (let i=0; i<requiredFields.length; i++) {
+			const field = requiredFields[i];
+			if (!(field in req.body)) {
+				const message = `Missing \`${field}\` in request body`
+				console.error(message);
+				return res.status(400).send(message);
+			}
+		}
+		let dt = req.body.date || moment.utc().format()
+		Meal
+			.create({
+				foodId: req.body.foodId,
+				meals: req.body.meals,
+				date: dt
+			})
+			.then(
+				post => res.status(201).json(post))
+			.catch(err => {
+				console.error(err);
+				res.status(500).json({message: 'Internal server error'});
+			});
+	})
+
+	app.put('/meal/:id', (req, res) => {
+		if (!(req.params.id && req.body._id && req.params.id === req.body._id)) {
+			const message = (
+				`Request path id (${req.params.id}) and request body id ` +
+	      		`(${req.body.id}) must match`);
+			console.error(message);
+			res.status(400).json({message: message});
+		}
+		const toUpdate = {};
+		const fieldsToUpdate = ['foodId', 'meals', 'date'];
+		fieldsToUpdate.forEach(field => {
+			if (field in req.body) {
+				toUpdate[field] = req.body[field];
+			}
+		});
+		console.log(toUpdate);
+		Meal
+			.findByIdAndUpdate(req.params.id, {$set: toUpdate})
+			.exec()
+			.then(post => res.status(201).end())
+			.catch(err => res.status(500).json({message: 'Internal server error'}));
+	});
+
+	app.delete('/meal/:id', (req, res) => {
+		Meal
+			.findByIdAndRemove(req.params.id)
+			.exec()
+			.then(post => res.status(204).end())
+			.catch(err => res.status(500).json({message: 'Internal server error'}));
+	});
+
 
 	//Login page with login form
 	app.get('/login', function(req, res) {

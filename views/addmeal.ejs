@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    <title>Add Meal Page</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body        { padding-top:80px; }
+    </style>
+</head>
+<body>
+    <h1>Add New Meal</h1>
+    <div class="form-container">
+        <form class="add-date">
+            <input type="date" name="date" placeholder="Date">
+        </form>
+        <form class="add-meal">
+            <input type="text" name="meal" placeholder="Choose Meal">
+            <select class="form-control" id="mealType">
+                <option>Breakfast</option>
+                <option>Lunch</option>
+                <option>Dinner</option>
+                <option>Snack</option>
+            </select>
+        </form>
+        <div class="food-add">
+            <form>
+                <input type="text" class="food-add" placeholder="Add a Food">
+                <button type="submit" class="foodadd_btn">+</button>
+            </form>
+            <ul class="added-food"></ul>
+        </div>    
+    </div>
+</body>
+</html>
