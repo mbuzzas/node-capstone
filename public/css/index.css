@@ -1,0 +1,8 @@
+.cover-page {
+	background-image: url('../images/background.jpeg');
+	background-position: cover;
+	background-size: cover;
+	height: 300px;
+	background-color: #7F7371;
+}
+

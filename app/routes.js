@@ -1,11 +1,11 @@
 var Food = require('./models/food');
 var Nutrient = require('./models/nutrients');
 var Meal = require('./models/meal');
-
 var moment = require('moment');
 
-module.exports = function(app, passport) {
 
+module.exports = function(app, passport) {
+// app.use(bodyParser.urlencoded({ extended : false }));
 	//Home page with login link
 	app.get('/', function(req, res) {
 		console.log("Test");
@@ -176,49 +176,63 @@ module.exports = function(app, passport) {
 	});
 
 	//Add meal
+	app.get('/addmeal', (req, res) => {
+		// res.sendFile(__dirname+'/addmeal2.html')
+		// res.render('addmeal', {"foods": "food"})
+		Food.find(function(err, food) {
+			if(err) {
+
+			}
+		console.log(food)
+		res.render('addmeal', {foods: food})
+		})
+	})
+
+	app.post('/addmeal', (req, res) => {
+	})
 
 	app.get('/meal', (req, res) => {
             var meals;
             var foodArray = [];
             var nutrientArray = [];
             var nutrients;
+            var obj = {};
             console.log(moment().format("MMM Do YY"));
             Meal.find({"date": {"$gte": moment.utc().hours(0).minutes(0).seconds(0).format(), "$lte": moment.utc().hours(0).minutes(0).seconds(0).add(1, 'day').format()}}).exec()
-                    .then(function(mealData) {
-                        meals = mealData;
-                        // res.status(201).json(meals);
-                        return meals
-                    })
                     .then(function(meals) {
                         meals.forEach(function(meal) {
-                            // meal.food.forEach(function(food) {
-                            //     if (!food.id in foodArray) {
-                                    foodArray = foodArray.concat(meal.foodId);
-                            //     }
-                            // });
+                        	meal.foodId.forEach((ele) => {
+                        		if(ele) {
+                        			foodArray.push(ele)
+                        		}
+                        	})
                         });
-                        return Food.find({ '_id': { $in: foodArray } }).exec();
-                    })
-                    .then(function(foods) {
-                        console.log(foods)
-                        foods.forEach(function(foodItem) {
-                            // foodItem.nutrient.forEach(function(nutrient) {
-                            //     if (!nutrient.id in nutrientArray) {
-                            //         nutrientArray.push(nutrient.id);
-                            //     }
-                            // });
-                            nutrientArray = nutrientArray.concat(foodItem.nutrients)
-                        });
+                        console.log(foodArray)
+                        obj.meals = meals;
+                        obj.foodArray = foodArray;
+                        // console.log(obj);
+                        return Food.find({ '_id': { $in: foodArray } }).exec()
+                        .then(foods => {
+                        	foods.forEach(function(foodItem) {
+                            	nutrientArray = nutrientArray.concat(foodItem.nutrients)
+                        	});
+                        	obj.nutrientArray = nutrientArray;
+                        	return nutrientArray;
+                        })
 
-                        return Nutrient.find({ '_id': { $in: nutrientArray } }).exec();
+                        // return Food.find({ '_id': { $in: foodArray } }).exec();
                     })
-                    .then(function(nutrientData) {
-                        console.log(nutrientData);
-                        res.status(201).json(nutrientData);
+                    .then(function(nutrientArray) {
+                        return Nutrient.find({ '_id': { $in: nutrientArray } }).exec()
+                        .then(nutrientData => {
+                        	obj.nutrientData = nutrientData;
+                        	// console.log(obj);
+                        	res.status(201).json(obj);
+                        })
                     })
-                    .catch(err => res.status(500).json({message: 'Internal server error'}));
+                    .catch(err => res.status(500).json({message: err}));
             // })
-            //res.render('addmeal.ejs', { meals: meals, food: food, nutrients: nutrients })
+            //res.render('addmeal.ejs', { meals: meals, foods: foods, nutrients: nutrients })
 	});
 
 	app.post('/meal', (req, res) => {

@@ -10,21 +10,16 @@
 </head>
 <body>
     <h1>Add New Meal</h1>
-    <%=foods.length%>
     <div class="form-container">
-        <form class="add-meal" action="/meal" method="post">
+        <form class="add-meal">
             <input type="date" name="date" placeholder="Date">
-            <select class="form-control" name="meals" id="mealType">
+            <select class="form-control" name="type-meal" id="mealType">
                 <option>Breakfast</option>
                 <option>Lunch</option>
                 <option>Dinner</option>
                 <option>Snack</option>
             </select>
-            <select name="foodId">
-                <% for(var i = 0; i < foods.length; i++){ %> 
-                    <option value="<%=foods[i]['_id']%>"><%=foods[i].name%></option>
-                    <%}%>
-            </select>
+            <input id="food" type="text" class="food-add" name="food" placeholder="Add a Food">
             <button type="submit" class="foodadd_btn">+</button>
         </form>
         <div class="food-add">
@@ -34,6 +29,27 @@
             <ul class="added-food"></ul>
         </div>    
     </div>
+    <script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+$(document).ready(function() {
+    $("form").submit(function(e) {
+        e.preventDefault();
+        var obj = {
+            food: $("#food").val()
+        };
+        $.ajax({
+        type: "POST",
+        dataType: "json",
+        crossdomain: true,
+        contentType: "application/json",
+        url: "/addmeal",
+        data: JSON.stringify(obj),
+        success: function(data){
+}});
+    })
+    
+});</script>
 </body>
 </html>
 
