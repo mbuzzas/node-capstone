@@ -15,16 +15,17 @@
         <a href="/addmeal" class="btn btn-default btn-sm">Add New Meal</a>
     </div>
 
-    <div class="date-list">
-		<ul>
-    		<% for(var i=0; i<supplies.length; i++) { %>
-        		<li>
-		            <a href='supplies/<%= supplies[i] %>'>
-		                <%= supplies[i] %>
-		            </a>
+    <div class="report">
+		<p>
+    		<% for(var i=0; i<nutrients.length; i++) { %>
+        		<li class="nutrient">
+		            <%= nutrients[i].name %>
+		  			<li class="benefits">
+		            	<%= nutrients[i].benefits %>
+		        	</li>
 		        </li>
 		    <% } %>
-		</ul>
+		</p>
     </div>
 
 </div>

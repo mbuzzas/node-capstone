@@ -4,6 +4,14 @@ body {
 	padding-top: 0;
 }
 
+.container {
+	/*border: 1px solid red;*/
+	margin-right: 0px;
+	margin-left: 0px;
+	padding: 0;
+	width: 100%;
+}
+
 .cover-image {
 	background-image: url('../images/background2.jpg');
 	/*background-position: center;*/
@@ -30,12 +38,43 @@ body {
 .home-about {
 	border-bottom: solid #3C1A03;
 	height: 500px;
+	position: relative;
 }
 
 .home-middle-image {
 	background-image: url("../images/salmon.jpg");
+	background-position: center;
 	position: absolute;
 	background-size: cover;
-	height: 275px;
-	width: 500px;
+	height: 300px;
+	width: 450px;
+	top: 19.5%;
+}
+
+.home-middle-text {
+	border: 1px solid red;
+	height: 300px;
+	width: 600px;
+	top: 19.5%;
+	position: absolute;
+	right: 0px;
+}
+
+.home-bottom-image {
+	background-image: url("../images/bowlofruit.jpg");
+	background-position: center;
+	position: absolute;
+	background-size: cover;
+	height: 375px;
+	width: 400px;
+	top: 12.5%;
+	right: 0px;
+}
+
+.home-bottom-text {
+	border: 1px solid red;
+	height: 375px;
+	width: 600px;
+	top: 12.5%;
+	position: absolute;
 }

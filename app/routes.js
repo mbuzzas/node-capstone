@@ -227,7 +227,8 @@ module.exports = function(app, passport) {
                         .then(nutrientData => {
                         	obj.nutrientData = nutrientData;
                         	// console.log(obj);
-                        	res.status(201).json(obj);
+                        	// res.status(201).json(obj);
+                        	res.render('meal.ejs', { meals: obj.meals, foods: obj.foodArray, nutrients: obj.nutrientData })
                         })
                     })
                     .catch(err => res.status(500).json({message: err}));

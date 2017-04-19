@@ -1,0 +1,39 @@
+body {
+	font-family: Didot, "Didot LT STD", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-align: center;
+	padding-top: 0;
+}
+
+.container {
+	/*border: 1px solid red;*/
+	margin-right: 0px;
+	margin-left: 0px;
+	padding: 0;
+	width: 100%;
+}
+
+.cover-image {
+	background-image: url('../images/background2.jpg');
+	/*background-position: center;*/
+	background-size: cover;
+	width: 100%;
+	height: 760px;
+	background-color: #7F7371;
+}
+
+.login-box {
+	border: 1px solid red;
+	width: 500px;
+	color: #F5F1F0;
+	position: absolute;
+	left: 8%;
+	top: 6%;
+}
+
+h1 {
+	font-family: Didot, "Didot LT STD", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.form-group {
+	
+}
