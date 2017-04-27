@@ -46,18 +46,21 @@ body {
 	background-position: center;
 	position: absolute;
 	background-size: cover;
-	height: 300px;
-	width: 450px;
-	top: 19.5%;
+	height: 60%;
+	width: 35%;
+	top: 20%;
+	left: 5%;
 }
 
 .home-middle-text {
-	border: 1px solid red;
-	height: 300px;
-	width: 600px;
-	top: 19.5%;
+	/*border: 1px solid red;*/
+	height: 60%;
+	width: 50%;
+	top: 20%;
 	position: absolute;
-	right: 0px;
+	right: 5%;
+	font-size: 1.5em;
+	color: #3C1A03;
 }
 
 .home-bottom-image {
@@ -65,16 +68,19 @@ body {
 	background-position: center;
 	position: absolute;
 	background-size: cover;
-	height: 375px;
-	width: 400px;
-	top: 12.5%;
-	right: 0px;
+	height: 65%;
+	width: 24%;
+	top: 17.5%;
+	right: 5%;
 }
 
 .home-bottom-text {
-	border: 1px solid red;
-	height: 375px;
-	width: 600px;
-	top: 12.5%;
+	/*border: 1px solid red;*/
+	height: 65%;
+	width: 55%;
+	top: 17.5%;
 	position: absolute;
+	left: 5%;
+	font-size: 1.5em;
+	color: #3C1A03;
 }

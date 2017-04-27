@@ -14,7 +14,6 @@ body {
 
 .cover-image {
 	background-image: url('../images/background2.jpg');
-	/*background-position: center;*/
 	background-size: cover;
 	width: 100%;
 	height: 760px;
@@ -22,7 +21,7 @@ body {
 }
 
 .login-box {
-	border: 1px solid red;
+	/*border: 1px solid red;*/
 	width: 500px;
 	color: #F5F1F0;
 	position: absolute;
@@ -32,8 +31,13 @@ body {
 
 h1 {
 	font-family: Didot, "Didot LT STD", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 3em;
 }
 
 .form-group {
-	
+	font-size: 1.5em;
+}
+
+.form-control {
+	text-align: center;
 }

@@ -4,35 +4,37 @@
     <title>Add Meal Page</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-    <style>
-        body        { padding-top:80px; }
-    </style>
+    <link type="text/css" rel="stylesheet" href="/css/addmeal.css">
 </head>
 <body>
-    <h1>Add New Meal</h1>
-    <div class="form-container">
-        <form class="add-meal" action="/meal" method="post">
-            <input type="date" name="date" placeholder="Date">
-            <select class="form-control" name="meals" id="mealType">
-                <option>Breakfast</option>
-                <option>Lunch</option>
-                <option>Dinner</option>
-                <option>Snack</option>
-            </select>
-            <select name="foodId">
-                <% for(var i = 0; i < foods.length; i++){ %> 
-                    <option value="<%=foods[i]['_id']%>"><%=foods[i].name%></option>
-                    <%}%>
-            </select>
-            <button type="submit" class="foodadd_btn">+</button>
-        </form>
-        <div class="food-add">
-            <form>
-                
+    <div class="cover-image">
+        <div class="form-container">
+            <h1>Add New Meal</h1>
+            <form class="add-meal" action="/meal" method="post">
+                <input class="form-control" type="date" name="date" placeholder="Date">
+                <select  class="form-control" name="meals" id="mealType">
+                    <option>Breakfast</option>
+                    <option>Lunch</option>
+                    <option>Dinner</option>
+                    <option>Snack</option>
+                </select>
+                <div class="food-add">
+                    <select class="form-control" name="foodId">
+                        <% for(var i = 0; i < foods.length; i++){ %> 
+                            <option value="<%=foods[i]['_id']%>"><%=foods[i].name%></option>
+                            <%}%>
+                    </select>
+                    <button class="add">+</button>
+                <ul class="added-food"></ul>  
+                </div>
+                <button type="submit" class="foodadd_btn">Add Meal</button>
             </form>
-            <ul class="added-food"></ul>
-        </div>    
+
+        </div>
     </div>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="/js/addmeal.js"></script>
 </body>
 </html>
+
 
