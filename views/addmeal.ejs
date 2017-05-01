@@ -11,25 +11,25 @@
         <div class="form-container">
             <h1>Add New Meal</h1>
             <form class="add-meal" action="/meal" method="post">
-                <input class="form-control" type="date" name="date" placeholder="Date">
+                <input class="form-control" type="date" id="datePicker" name="date" placeholder="Date">
                 <select  class="form-control" name="meals" id="mealType">
                     <option>Breakfast</option>
                     <option>Lunch</option>
                     <option>Dinner</option>
                     <option>Snack</option>
                 </select>
-                <div class="food-add">
-                    <select class="form-control" name="foodId">
+                <div class="input-group">
+                <input type="hidden" class="foodIDs" name="foodIDs" value=""/>
+                    <select class="form-control" id="foodPicker" name="foodId">
                         <% for(var i = 0; i < foods.length; i++){ %> 
-                            <option value="<%=foods[i]['_id']%>"><%=foods[i].name%></option>
+                            <option class="food-<%=foods[i]['_id']%>" value="<%=foods[i]['_id']%>"><%=foods[i].name%></option>
                             <%}%>
                     </select>
                     <button class="add">+</button>
-                <ul class="added-food"></ul>  
                 </div>
+                <ul class="added-food"> </ul>  
                 <button type="submit" class="foodadd_btn">Add Meal</button>
             </form>
-
         </div>
     </div>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

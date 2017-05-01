@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var mealSchema = mongoose.Schema({
-	foodId: {type: [], required: true},
+	foodId: {type: [String], required: true},
 	servings: {type: Number},
 	meals: {type: String},
 	date: {type: Date, default: Date.now}

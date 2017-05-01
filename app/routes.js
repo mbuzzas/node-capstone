@@ -201,7 +201,7 @@ module.exports = function(app, passport) {
             Meal.find({"date": {"$gte": moment.utc().hours(0).minutes(0).seconds(0).format(), "$lte": moment.utc().hours(0).minutes(0).seconds(0).add(1, 'day').format()}}).exec()
                     .then(function(meals) {
                         meals.forEach(function(meal) {
-                        	meal.foodId.forEach((ele) => {
+                        	meal.foodIds.forEach((ele) => {
                         		if(ele) {
                         			foodArray.push(ele)
                         		}
@@ -237,7 +237,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/meal', (req, res) => {
-		const requiredFields = ['foodId', 'meals'];
+		const requiredFields = ['foodIDs', 'meals'];
 		for (let i=0; i<requiredFields.length; i++) {
 			const field = requiredFields[i];
 			if (!(field in req.body)) {
@@ -249,12 +249,12 @@ module.exports = function(app, passport) {
 		let dt = req.body.date || moment.utc().format()
 		Meal
 			.create({
-				foodId: req.body.foodId,
+				foodId: req.body.foodIDs.split(","),
 				meals: req.body.meals,
 				date: dt
 			})
 			.then(
-				post => res.status(201).json(post))
+				post => res.redirect('/meal'))
 			.catch(err => {
 				console.error(err);
 				res.status(500).json({message: 'Internal server error'});
