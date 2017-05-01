@@ -16,11 +16,13 @@ $(document).ready(function(){
 				foodIDs += "," + foodID;
 			}
 			$('.foodIDs').val(foodIDs);
+			$(this).parent().attr('id');
 		$('.added-food').append(html);
-		$(this).parent().find('select[name="foodId"]').val('');	
+		$(this).parent().find('select[name="foodId"]').val();	
 	});
 
 	$('.added-food').on('click', '.right-check', function() {
+		$('foodIDs').val('id').replace('');
 		$(this).parent().remove();
 	})
 

@@ -6,13 +6,12 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
     <link type="text/css" rel="stylesheet" href="/css/addmeal.css">
 </head>
-<body>
-    <div class="cover-image">
+iv class="cover-image">
         <div class="form-container">
             <h1>Add New Meal</h1>
             <form class="add-meal" action="/meal" method="post">
-                <input class="form-control" type="date" id="datePicker" name="date" placeholder="Date">
-                <select  class="form-control" name="meals" id="mealType">
+                <input class="form" type="date" id="datePicker" name="date" placeholder="Date">
+                <select  class="form" name="meals" id="mealType">
                     <option>Breakfast</option>
                     <option>Lunch</option>
                     <option>Dinner</option>
@@ -20,7 +19,7 @@
                 </select>
                 <div class="input-group">
                 <input type="hidden" class="foodIDs" name="foodIDs" value=""/>
-                    <select class="form-control" id="foodPicker" name="foodId">
+                    <select class="form" id="foodPicker" name="foodId">
                         <% for(var i = 0; i < foods.length; i++){ %> 
                             <option class="food-<%=foods[i]['_id']%>" value="<%=foods[i]['_id']%>"><%=foods[i].name%></option>
                             <%}%>
