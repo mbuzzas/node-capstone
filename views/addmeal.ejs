@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
     <link type="text/css" rel="stylesheet" href="/css/addmeal.css">
 </head>
-iv class="cover-image">
+    <div class="cover-image">
         <div class="form-container">
             <h1>Add New Meal</h1>
             <form class="add-meal" action="/meal" method="post">
-                <input class="form" type="date" id="datePicker" name="date" placeholder="Date">
+                <input class="form" type="date" id="datePicker" name="date" value="<%=today%>">
                 <select  class="form" name="meals" id="mealType">
                     <option>Breakfast</option>
                     <option>Lunch</option>

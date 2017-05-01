@@ -17,6 +17,9 @@
 
     <div class="report">
 		<p>
+        <% for(var j=0; j<meals.length; j++){ %>
+            <%= meals[j].meals %>
+        <% } %>
     		<% for(var i=0; i<nutrients.length; i++) { %>
         		<li class="nutrient">
 		            <%= nutrients[i].name %>
@@ -25,7 +28,7 @@
 		        	</li>
 		        </li>
 		    <% } %>
-		</p>
+		</p>    
     </div>
 
 </div>

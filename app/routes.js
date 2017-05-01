@@ -1,8 +1,7 @@
 var Food = require('./models/food');
 var Nutrient = require('./models/nutrients');
 var Meal = require('./models/meal');
-var moment = require('moment');
-
+var moment = require('moment'); 
 
 module.exports = function(app, passport) {
 // app.use(bodyParser.urlencoded({ extended : false }));
@@ -177,14 +176,13 @@ module.exports = function(app, passport) {
 
 	//Add meal
 	app.get('/addmeal', (req, res) => {
-		// res.sendFile(__dirname+'/addmeal2.html')
-		// res.render('addmeal', {"foods": "food"})
+		var today = moment().format('YYYY-MM-DD'); 
 		Food.find(function(err, food) {
 			if(err) {
 
 			}
 		console.log(food)
-		res.render('addmeal', {foods: food})
+		res.render('addmeal', {foods: food, today: today})
 		})
 	})
 
@@ -197,11 +195,11 @@ module.exports = function(app, passport) {
             var nutrientArray = [];
             var nutrients;
             var obj = {};
-            console.log(moment().format("MMM Do YY"));
+            // console.log(moment().format("MMM Do YY"));
             Meal.find({"date": {"$gte": moment.utc().hours(0).minutes(0).seconds(0).format(), "$lte": moment.utc().hours(0).minutes(0).seconds(0).add(1, 'day').format()}}).exec()
                     .then(function(meals) {
                         meals.forEach(function(meal) {
-                        	meal.foodIds.forEach((ele) => {
+                        	meal.foodId.forEach((ele) => {
                         		if(ele) {
                         			foodArray.push(ele)
                         		}
@@ -210,7 +208,6 @@ module.exports = function(app, passport) {
                         console.log(foodArray)
                         obj.meals = meals;
                         obj.foodArray = foodArray;
-                        // console.log(obj);
                         return Food.find({ '_id': { $in: foodArray } }).exec()
                         .then(foods => {
                         	foods.forEach(function(foodItem) {
@@ -219,21 +216,15 @@ module.exports = function(app, passport) {
                         	obj.nutrientArray = nutrientArray;
                         	return nutrientArray;
                         })
-
-                        // return Food.find({ '_id': { $in: foodArray } }).exec();
                     })
                     .then(function(nutrientArray) {
                         return Nutrient.find({ '_id': { $in: nutrientArray } }).exec()
                         .then(nutrientData => {
                         	obj.nutrientData = nutrientData;
-                        	// console.log(obj);
-                        	// res.status(201).json(obj);
                         	res.render('meal.ejs', { meals: obj.meals, foods: obj.foodArray, nutrients: obj.nutrientData })
                         })
                     })
                     .catch(err => res.status(500).json({message: err}));
-            // })
-            //res.render('addmeal.ejs', { meals: meals, foods: foods, nutrients: nutrients })
 	});
 
 	app.post('/meal', (req, res) => {
