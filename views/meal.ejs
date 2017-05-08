@@ -5,32 +5,51 @@
     <title>Meals</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <!-- <link type="text/css" rel="stylesheet" href="/css/meal.css"> -->
 </head>
 <body>
-<div class="container">
 
-    <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Your Meal's Page</h1>
+<div class="cover-image">
+    <div class="cover-page">
+        <h1>
+        <% for(var i=0; i<meals.length; i++) { %>
+            <%= meals[i].date %>
+        <% } %>
+        Meal
+        </h1>
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
         <a href="/addmeal" class="btn btn-default btn-sm">Add New Meal</a>
     </div>
-
-    <div class="report">
-		<p>
-        <% for(var j=0; j<meals.length; j++){ %>
-            <%= meals[j].meals %>
-        <% } %>
-    		<% for(var i=0; i<nutrients.length; i++) { %>
-        		<li class="nutrient">
-		            <%= nutrients[i].name %>
-		  			<li class="benefits">
-		            	<%= nutrients[i].benefits %>
-		        	</li>
-		        </li>
-		    <% } %>
-		</p>    
-    </div>
-
 </div>
+<div class="report">
+	<ul>
+    <% for(var j=0; j<meals.length; j++){ %>
+        <li class="meal">    
+            <%= meals[j].meals %>
+            <ul>
+                <% for(var k=0; k<foods.length; k++) { %>
+                    <li class="food">
+                        <%= foods[k].name %>
+                            <ul>
+                                <% for(var i=0; i<nutrients.length; i++) { %>
+                                    <li class="nutrient">
+                                        <%= nutrients[i].name %>
+                                        <ul>
+                                            <li class="benefits">
+                                                <%= nutrients[i].benefits %>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                <% } %>
+                            </ul>
+                    </li>
+                <% } %>
+            </ul>
+        </li>
+    <% } %>
+
+	</ul>    
+</div>
+
 </body>
 </html>

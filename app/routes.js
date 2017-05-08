@@ -4,7 +4,6 @@ var Meal = require('./models/meal');
 var moment = require('moment'); 
 
 module.exports = function(app, passport) {
-// app.use(bodyParser.urlencoded({ extended : false }));
 	//Home page with login link
 	app.get('/', function(req, res) {
 		console.log("Test");
@@ -190,12 +189,12 @@ module.exports = function(app, passport) {
 	})
 
 	app.get('/meal', (req, res) => {
+			var date = moment(date).format('MMM Do YY');
             var meals;
             var foodArray = [];
             var nutrientArray = [];
             var nutrients;
             var obj = {};
-            // console.log(moment().format("MMM Do YY"));
             Meal.find({"date": {"$gte": moment.utc().hours(0).minutes(0).seconds(0).format(), "$lte": moment.utc().hours(0).minutes(0).seconds(0).add(1, 'day').format()}}).exec()
                     .then(function(meals) {
                         meals.forEach(function(meal) {
@@ -221,7 +220,7 @@ module.exports = function(app, passport) {
                         return Nutrient.find({ '_id': { $in: nutrientArray } }).exec()
                         .then(nutrientData => {
                         	obj.nutrientData = nutrientData;
-                        	res.render('meal.ejs', { meals: obj.meals, foods: obj.foodArray, nutrients: obj.nutrientData })
+                        	res.render('meal.ejs', { meals: obj.meals, foods: obj.foodArray, nutrients: obj.nutrientData, date: date})
                         })
                     })
                     .catch(err => res.status(500).json({message: err}));
@@ -282,6 +281,11 @@ module.exports = function(app, passport) {
 			.then(post => res.status(204).end())
 			.catch(err => res.status(500).json({message: 'Internal server error'}));
 	});
+
+	// app.get('/meal/:date', (req, res) => {
+	// 	Meal.find({"date": }).exec()
+	// 	res.render()
+	// })
 
 
 	//Login page with login form

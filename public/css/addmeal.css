@@ -5,7 +5,7 @@ body {
 }
 
 .cover-image {
-	background-image: url('../images/avocado.jpg');
+	background-image: url('../images/background2.jpg');
 	background-size: cover;
 	/*background-position: center bottom;*/
 	width: 100%;
@@ -14,10 +14,10 @@ body {
 }
 
 .form-container {
-	border: 1px solid red;
+	/*border: 1px solid red;*/
 	width: 40%;
     font-size: 1.5em;
-    margin-left: 30%;
+    margin-left: 8%;
     position: absolute;
     top: 10%;
 }
@@ -74,6 +74,10 @@ h1 {
 .added-food {
 	list-style-type: none;
 	padding: 0;
+}
+
+.btn {
+	font-size: 17px;
 }
 
 .form-control {
