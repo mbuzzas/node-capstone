@@ -4,7 +4,8 @@ var mealSchema = mongoose.Schema({
 	foodId: {type: [String], required: true},
 	servings: {type: Number},
 	meals: {type: String},
-	date: {type: Date, default: Date.now}
+	date: {type: Date, default: Date.now},
+	userId: String
 });
 
 // mealSchema.methods.apiRepr = function() {

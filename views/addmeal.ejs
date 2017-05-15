@@ -10,6 +10,7 @@
         <div class="form-container">
             <h1>Add New Meal</h1>
             <form class="add-meal" action="/meal" method="post">
+                <input type="hidden" name="userId" value="<%= user._id %>"/>
                 <input class="form" type="date" id="datePicker" name="date" value="<%=today%>">
                 <select  class="form" name="meals" id="mealType">
                     <option>Breakfast</option>

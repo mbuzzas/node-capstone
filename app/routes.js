@@ -90,10 +90,6 @@ module.exports = function(app, passport) {
 	});
 
 
-
-
-
-
 	app.get('/nutrient', (req, res) => {
 		Nutrient
 			.find()
@@ -172,6 +168,7 @@ module.exports = function(app, passport) {
 			.then(post => res.status(204).end())
 			.catch(err => res.status(500).json({message: 'Internal server error'}));
 	});
+	
 
 	//Add meal
 	app.get('/addmeal', (req, res) => {
@@ -181,21 +178,36 @@ module.exports = function(app, passport) {
 
 			}
 		console.log(food)
-		res.render('addmeal', {foods: food, today: today})
+		res.render('addmeal', {foods: food, today: today, user: req.user})
 		})
 	})
 
 	app.post('/addmeal', (req, res) => {
-	})
+	});
+
+	app.get('/mealtest', (req,res) => {
+		res.send({
+			"$gte": moment().hours(0).minutes(0).seconds(0).format(), 
+			"$lte": moment().hours(0).minutes(0).seconds(0).add(1, 'day').format()
+		});
+	});
+
+	app.get('/allmeals',(req,res) => {
+		Meal.find({},(e,data)=>{
+			res.send(data);
+		});
+	});
 
 	app.get('/meal', (req, res) => {
 			var date = moment(date).format('MMM Do YY');
             var meals;
             var foodArray = [];
+            var foodObj = {};
             var nutrientArray = [];
             var nutrients;
+            var nutObj = {};
             var obj = {};
-            Meal.find({"date": {"$gte": moment.utc().hours(0).minutes(0).seconds(0).format(), "$lte": moment.utc().hours(0).minutes(0).seconds(0).add(1, 'day').format()}}).exec()
+            Meal.find({"date": {"$gte": moment().hours(0).minutes(0).seconds(0).format(), "$lte": moment().hours(0).minutes(0).seconds(0).add(1, 'day').format()}}).exec()
                     .then(function(meals) {
                         meals.forEach(function(meal) {
                         	meal.foodId.forEach((ele) => {
@@ -210,8 +222,10 @@ module.exports = function(app, passport) {
                         return Food.find({ '_id': { $in: foodArray } }).exec()
                         .then(foods => {
                         	foods.forEach(function(foodItem) {
+                        		foodObj[foodItem._id] = {name:foodItem.name,nutrients:foodItem.nutrients};
                             	nutrientArray = nutrientArray.concat(foodItem.nutrients)
                         	});
+                        	// res.send(foodObj);
                         	obj.nutrientArray = nutrientArray;
                         	return nutrientArray;
                         })
@@ -220,7 +234,13 @@ module.exports = function(app, passport) {
                         return Nutrient.find({ '_id': { $in: nutrientArray } }).exec()
                         .then(nutrientData => {
                         	obj.nutrientData = nutrientData;
-                        	res.render('meal.ejs', { meals: obj.meals, foods: obj.foodArray, nutrients: obj.nutrientData, date: date})
+                        	nutrientData.forEach(function(nut){
+                        		nutObj[nut._id] = {
+                        			name: nut.name,
+                        			benefits: nut.benefits
+                        		};
+                        	});
+                        	res.render('meal.ejs', { meals: obj.meals, foods: foodObj, nutrients: nutObj, date: date})
                         })
                     })
                     .catch(err => res.status(500).json({message: err}));
@@ -236,12 +256,14 @@ module.exports = function(app, passport) {
 				return res.status(400).send(message);
 			}
 		}
-		let dt = req.body.date || moment.utc().format()
+
+		let dt = moment(req.body.date).format() || moment().format()
 		Meal
 			.create({
 				foodId: req.body.foodIDs.split(","),
 				meals: req.body.meals,
-				date: dt
+				date: dt,
+				userId: req.body.userId
 			})
 			.then(
 				post => res.redirect('/meal'))
@@ -249,7 +271,18 @@ module.exports = function(app, passport) {
 				console.error(err);
 				res.status(500).json({message: 'Internal server error'});
 			});
-	})
+	});
+
+	app.get('/meal/:id', (req, res) => {
+		Meal
+			.findById(req.params.id)
+			.exec()
+			.then(post => res.json(post))
+			.catch(err => {
+				console.error(err);
+				res.status(500).json({message: 'Internal server error'});
+			});
+	});
 
 	app.put('/meal/:id', (req, res) => {
 		if (!(req.params.id && req.body._id && req.params.id === req.body._id)) {
@@ -282,10 +315,10 @@ module.exports = function(app, passport) {
 			.catch(err => res.status(500).json({message: 'Internal server error'}));
 	});
 
-	// app.get('/meal/:date', (req, res) => {
-	// 	Meal.find({"date": }).exec()
-	// 	res.render()
-	// })
+
+
+
+	// TODO - app.get('/meal/:id') - to display a specific meal
 
 
 	//Login page with login form
@@ -312,7 +345,23 @@ module.exports = function(app, passport) {
 
 	//Profile page (protected page)
 	app.get('/profile', isLoggedIn, function(req, res) {
-		res.render('profile.ejs', {user: req.user});
+		var date = moment(date).format('MMM Do YY');
+		var datesArray = [];
+		Meal.find({userId: req.user._id},function(err, meals) {
+			if(err) {
+
+			}
+			var dates = {};
+			for (var i = 0; i < meals.length; i++) {
+				if(!dates.hasOwnProperty(meals[i].date)){
+					dates[meals[i].date] = [];
+					datesArray.push(meals[i].date);
+ 				}
+ 				dates[meals[i].date].push(meals[i]);
+			}
+			console.log(meals)
+			res.render('profile.ejs', {user: req.user, meals:dates, dates:datesArray});
+		});
 	});
 
 	//Logout

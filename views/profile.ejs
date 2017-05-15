@@ -21,21 +21,17 @@
 </div>
 <div class="meal-dates">
     <h1>Meal entries</h1>
-
+    <h3><%= dates.length %> - # of dates </h3>
+    <ul class="dates">
+    <% for(var i =0; i<dates.length; i++){ %>
+        <li><%=dates[i]%></li>
+        <li><ul class="dates-meals">
+        <% for(var j=0; j<meals[dates[i]].length; j++){ %>
+            <li><a href='/meal/<%=meals[dates[i]][j]._id%>'><%=meals[dates[i]][j].meals%></a></li>
+        <% } %>
+        </ul></li>
+    <% } %>
+    </ul>
 </div>
-      <!-- LOCAL INFORMATION -->
-<!--         <div class="col-sm-6">
-            <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
-
-                    <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %>
-                    </p>
-
-            </div>
-        </div> -->
-
 </body>
 </html>
