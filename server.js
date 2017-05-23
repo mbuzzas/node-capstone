@@ -70,7 +70,17 @@ var runServer = function(cb){
   })
 };
 
-
+var closeServer = function() {
+  mongoose.disconnect().then(() => {
+    console.log('Closing Server');
+    server.close(err => {
+      if (err) {
+        return reject(err);
+      }
+      resolve();
+    });
+  });
+}
 
 if(require.main === module){
   runServer(function(err){

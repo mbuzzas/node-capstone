@@ -1,0 +1,47 @@
+<!doctype html>
+<html>  
+<head>
+    <title>Meals</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/css/mealid.css">
+</head>
+<body>
+
+<div class="cover-image">
+    <div class="cover-page">
+        <h1>
+            <%= meals.meals %> for <%= meals.date.toDateString() %>
+        
+        </h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+        <a href="/addmeal" class="btn btn-default btn-sm">Add New Meal</a>
+    </div>
+</div>
+<div class="report">  
+    <ul>
+        <% for(var k=0; k<meals.foodId.length; k++) { %>
+            <li class="food">
+            <% if(meals.foodId[k] != "") { %>
+                <%= foods[meals.foodId[k]].name %>
+                    <ul>
+                        <% for(var i=0; i<foods[meals.foodId[k]].nutrients.length; i++) { %>
+                            <li class="nutrient">
+                                <%= nutrients[foods[meals.foodId[k]].nutrients[i]].name %>
+                                <ul>
+                                    <li class="benefits">
+                                        <%= nutrients[foods[meals.foodId[k]].nutrients[i]].benefits %>
+                                    </li>
+                                </ul>
+                            </li>
+                        <% } %>
+                    </ul>
+            <% } %>
+            </li>
+        <% } %>
+
+	</ul>      
+</div>
+
+</body>
+</html>

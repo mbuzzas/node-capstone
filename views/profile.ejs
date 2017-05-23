@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Node Authentication</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="/css/profile.css">
@@ -20,8 +20,7 @@
     </div>
 </div>
 <div class="meal-dates">
-    <h1>Meal entries</h1>
-    <h3><%= dates.length %> - # of dates </h3>
+    <h1><%= dates.length %> - # of dates </h1>
     <ul class="dates">
     <% for(var i =0; i<dates.length; i++){ %>
         <li><%=dates[i]%></li>

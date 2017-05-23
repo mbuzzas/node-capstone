@@ -1,0 +1,58 @@
+body {
+	font-family: Didot, "Didot LT STD", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-align: center;
+	padding-top: 0;
+}
+
+html, body {
+	height: 100%;
+}
+
+h1 {
+	font-family: Didot, "Didot LT STD", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 2em;
+    text-shadow: 2px 2px 8px #808080;
+}
+
+.cover-image {
+	background-image: url('../images/backgroundwood.jpg');
+	background-position: center;
+	background-size: cover;
+	width: 100%;
+	height: 181px;
+	background-color: #7F7371;
+	margin-top: 25px;
+}
+
+.cover-page {
+	color: #F5F1F0;
+	/*position: absolute;
+	text-align: center;
+	left: 19%;*/
+	/*top: 5%;*/
+	font-size: 2.5em;
+	margin: 0 auto;
+	padding-top: 3px;
+}
+
+.btn {
+	font-size: .4em;
+}
+
+.report {
+	padding-top: 18px;
+	padding-right: 30px;
+}
+
+li {
+	list-style-type: none;
+	text-align: left;
+}
+
+.food {
+	font-size: 1.5em;
+}
+
+.nutrient {
+	font-size: .75em;
+}
