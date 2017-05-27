@@ -7,14 +7,12 @@ body {
 .cover-image {
 	background-image: url('../images/background2.jpg');
 	background-size: cover;
-	/*background-position: center bottom;*/
 	width: 100%;
 	height: 700px;
 	position: relative;
 }
 
 .form-container {
-	/*border: 1px solid red;*/
 	width: 40%;
     font-size: 1.5em;
     margin-left: 8%;

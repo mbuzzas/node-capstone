@@ -1,4 +1,4 @@
-		ddawvar Food = require('./models/food');
+var Food = require('./models/food');
 var Nutrient = require('./models/nutrients');
 var Meal = require('./models/meal');
 var moment = require('moment'); 

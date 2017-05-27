@@ -1,6 +1,5 @@
 var express  = require('express');
 var app      = express();
-// var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
@@ -16,10 +15,6 @@ var {PORT, DATABASE_URL} = require('./config/database');
 // add mongoose promise setup
 mongoose.Promise = global.Promise;
 
-// configuration ===============================================================
-// mongoose.connect(configDB.DATABASE_URL, function(error) {
-// 	console.log("error", error);
-// }); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
 
@@ -38,23 +33,10 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(express.static(__dirname+"/public"))
 app.use(bodyParser.urlencoded({ extended : false }));
 
-// routes ======================================================================
+
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 var Food = require('./app/models/food');
 
-// app.get('/food', (req, res) => {
-// 		// return res.status(200).json({"key": "value"})
-// 		Food.find(function(err, food){
-//   if(err || !food){
-//     return res.status(500).json({"message": err})
-//   }
-//   return res.status(201).json(food)
-// })
-// })
-
-// launch ======================================================================
-// app.listen(port);
-//console.log('The magic happens at http://localhost:' + port);
 
 var runServer = function(cb){
   mongoose.connect(DATABASE_URL, function(err){
