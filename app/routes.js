@@ -1,4 +1,4 @@
-var Food = require('./models/food');
+		ddawvar Food = require('./models/food');
 var Nutrient = require('./models/nutrients');
 var Meal = require('./models/meal');
 var moment = require('moment'); 
@@ -321,14 +321,6 @@ module.exports = function(app, passport) {
                 })
             })
             .catch(err => res.status(500).json({message: err}));
-		// Meal
-		// 	.findById(req.params.id)
-		// 	.exec()
-		// 	.then(post => res.json(post))
-		// 	.catch(err => {
-		// 		console.error(err);
-		// 		res.status(500).json({message: 'Internal server error'});
-		// 	});
 	});
 
 	app.put('/meal/:id', (req, res) => {
@@ -362,10 +354,6 @@ module.exports = function(app, passport) {
 			.catch(err => res.status(500).json({message: 'Internal server error'}));
 	});
 
-
-
-
-	// TODO - app.get('/meal/:id') - to display a specific meal
 
 
 	//Login page with login form
