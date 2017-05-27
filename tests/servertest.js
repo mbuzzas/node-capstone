@@ -94,30 +94,7 @@ describe('login / logout tests:', function() {
 	});
 })
 
-describe('foods', function() {
-
-	before(funtion() {
-		return runServer(TEST_DATABASE_URL);
-	});
-
-	beforeEach(function() {
-		return seedMealData();
-	});
-
-	afterEach(function() {
-		return tearDownDb();
-	});
-
-	after(function() {
-		return closeServer();
-	})
-
-	describe('GET endpoint', function() {
-		
-	})
-})
-
-// describe('Get meals', function() {
+// describe('foods', function() {
 
 // 	before(funtion() {
 // 		return runServer(TEST_DATABASE_URL);
@@ -135,32 +112,143 @@ describe('foods', function() {
 // 		return closeServer();
 // 	})
 
-// 	describe('Get endpoint', function() {
+// 	describe('GET endpoint', function() {
 
-// 		it('should return all meals for user', function() {
-// 			let res;
-// 			return chai.request(app)
-// 				.get('/meal')
-// 				.then(function(_res) {
-// 					res = _res;
-// 					res.should.have.status(200);
-// 					res.body.meal.should.have.length.of.at.least(1);
-// 					return meal.count();
-// 				})
-// 				.then(function(count) {
-// 					res.body.meal.should.have.length.of(count);
-// 				});
-// 		});
-
-// 		it('should return meals with correct fields', function() {
-// 			let resMeal;
-// 			return chai.request(app)
-// 				.get('/meal')
-// 				.then(function)
-// 				//PICK UP FROM HERE**
-// 		})
 // 	})
 // })
+
+describe('Get meals', function() {
+
+	before(funtion() {
+		return runServer(TEST_DATABASE_URL);
+	});
+
+	beforeEach(function() {
+		return seedMealData();
+	});
+
+	afterEach(function() {
+		return tearDownDb();
+	});
+
+	after(function() {
+		return closeServer();
+	})
+
+	describe('Get endpoint', function() {
+
+		it('should return all meals for user', function() {
+			let res;
+			return chai.request(app)
+				.get('/meal')
+				.then(function(_res) {
+					res = _res;
+					res.should.have.status(200);
+					res.body.meal.should.have.length.of.at.least(1);
+					return meal.count();
+				})
+				.then(function(count) {
+					res.body.meal.should.have.length.of(count);
+				});
+		});
+
+		it('should return meals with correct fields', function() {
+			let resMeal;
+			return chai.request(app)
+				.get('/meal')
+				.then(function(res) {
+					res.should.have.status(200);
+					res.should.be.json;
+					res.body.meal.should.be.a('array');
+					res.body.meal.should.have.length.of.at.least(1);
+					res.body.meal.forEach(function(meal) {
+						meal.should.be.a('object');
+						meal.should.include.keys(
+							'id', 'foodId', 'meals', 'date', 'userId');
+					});
+					resMeal = res.body.meal[0];
+					return Meal.findById(resRestaurant.id);
+				})
+				.then(function(meal) {
+					resMeal.id.should.equal(meal.id);
+					resMeal.foodId.should.equal(meal.foodId);
+					resMeal.meals.should.equal(meal.meals);
+					resMeal.date.should.equal(meal.date);
+					resMeal.userId.should.equal(meal.userId);
+				});
+		});
+	});
+
+	describe('POST endpoint', function() {
+
+		it('should add a new meal', function() {
+			const newMeal = generateMealData();
+			return chai.request(app)
+				.post('/meal')
+				.send(newMeal)
+				.then(function(res) {
+					res.should.have.status(201);
+					res.should.be.json;
+					res.body.should.be.a('object');
+					res.body.should.include.keys(
+						'id', 'foodId', 'meals', 'date', 'userId');
+					res.body.id.should.not.be.null;
+					res.body.foodId.should.equal(newMeal.foodId);
+					res.body.meals.should.equal(newMeal.meals);
+					res.body.date.should.equal(newMeal.date);
+					res.body.userId.should.equal(newMeal.userId);
+					return Meal.findById(res.body.id);
+				});
+		});
+	});
+
+	describe('PUT endpoint', function() {
+
+		it('should update fields'. function() {
+			const updateData = {
+				meals: 'brunch'
+			};
+
+			return Meal 
+				.findOne()
+				.exec()
+				.then(function(meal) {
+					updateData.id = meal.id;
+					return chai.request(app)
+						.put(`/meal/${meal.id}`)
+						.send(updateData);
+				})
+				.then(function(res) {
+					res.should.have.status(204);
+					return Meal.findById(updateData.id).exec();
+				})
+				.then(function(meal) {
+					meal.meals.should.equal(updateData.meals);
+				});
+		});
+	});
+
+	describe('DELETE endpoint', function() {
+
+		it('should delete meal by id', function() {
+			let meal;
+			return meal
+				.findOne()
+				.exec()
+				.then(function(_meal) {
+					meal = _meal;
+					return chai.request(app).delete(`/meal/${meal.id}`);
+				})
+				.then(function(res) {
+					res.should.have.status(204);
+					return MEal.findById(meal.id).exec();
+				})
+				.then(function(_meal) {
+					should.not.exist(_meal);
+				});
+		});
+	});
+});
 
 
 
